@@ -7,18 +7,42 @@ const Form = (props) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  const addMember = (event) => {
     event.preventDefault();
-    props.setMemberList([...props.memberList, formData]);
+    props.setMemberList([
+      ...props.memberList,
+      { id: props.memberList.length, ...formData },
+    ]);
     setFormData({ name: '', email: '', role: '' });
   };
 
-  useEffect(() => setFormData({ ...props.memberToEdit }), [props.memberToEdit]);
+  const editMember = (event) => {
+    event.preventDefault();
+    props.setMemberList(
+      props.memberList.map((member) => {
+        if (member.id === props.memberToEdit.id) {
+          return { id: member.id, ...formData };
+        } else {
+          return member;
+        }
+      }),
+    );
+    setFormData({ name: '', email: '', role: '' });
+    props.setMemberToEdit(null);
+  };
+
+  useEffect(() => {
+    setFormData({ ...props.memberToEdit });
+  }, [props.memberToEdit]);
 
   return (
     <>
-      <form onSubmit={(event) => handleSubmit(event)}>
-        <h3>Add Member</h3>
+      <form
+        onSubmit={(event) =>
+          props.memberToEdit ? editMember(event) : addMember(event)
+        }
+      >
+        <h3>{(props.memberToEdit ? 'Edit' : 'Add') + ' Member'}</h3>
         <label htmlFor="nameInput">
           Name:{' '}
           <input
@@ -51,7 +75,7 @@ const Form = (props) => {
             value={formData.role}
           />
         </label>
-        <button>Add</button>
+        <button>{props.memberToEdit ? 'Edit' : 'Add'}</button>
       </form>
     </>
   );

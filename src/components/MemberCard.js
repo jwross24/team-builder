@@ -2,6 +2,7 @@ import React from 'react';
 
 const MemberCard = (props) => {
   const { name, email, role } = props.memberData;
+
   return (
     <div className="card">
       <p>
