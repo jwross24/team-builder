@@ -73,3 +73,7 @@ form button {
   align-self: center;
   margin-top: 2rem;
 }
+
+.edit-button {
+  margin-bottom: 1rem;
+}

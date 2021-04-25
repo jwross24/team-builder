@@ -19,17 +19,22 @@ const defaultMembers = [
 
 function App() {
   const [memberList, setMemberList] = useState(defaultMembers);
+  const [memberToEdit, setMemberToEdit] = useState(null);
 
   return (
     <div className="App">
-      <Form memberList={memberList} setMemberList={setMemberList} />
+      <Form
+        memberList={memberList}
+        setMemberList={setMemberList}
+        memberToEdit={memberToEdit}
+      />
       <h3>Team List</h3>
       <div className="card-wrapper">
-        {memberList.map((member) => (
+        {memberList.map((memberData, index) => (
           <MemberCard
-            name={member.name}
-            email={member.email}
-            role={member.role}
+            key={index}
+            memberData={memberData}
+            setMemberToEdit={setMemberToEdit}
           />
         ))}
       </div>

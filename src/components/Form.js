@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Form = (props) => {
   const [formData, setFormData] = useState({ name: '', email: '', role: '' });
@@ -8,11 +8,12 @@ const Form = (props) => {
   };
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     props.setMemberList([...props.memberList, formData]);
     setFormData({ name: '', email: '', role: '' });
-
-    event.preventDefault();
   };
+
+  useEffect(() => setFormData({ ...props.memberToEdit }), [props.memberToEdit]);
 
   return (
     <>
