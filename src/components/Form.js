@@ -41,12 +41,9 @@ const Form = (props) => {
 
   useEffect(() => {
     setFormData({ ...props.memberToEdit });
-    console.log(props.memberToEdit);
   }, [props.memberToEdit]);
 
-  useEffect(() => {
-    console.log(props.memberList);
-  }, [props.memberList]);
+  useEffect(() => {}, [props.memberList]);
 
   return (
     <>
