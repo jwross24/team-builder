@@ -21,7 +21,12 @@ const defaultMembers = [
 
 function App() {
   const [memberList, setMemberList] = useState(defaultMembers);
-  const [memberToEdit, setMemberToEdit] = useState(null);
+  const [memberToEdit, setMemberToEdit] = useState({
+    id: -1,
+    name: '',
+    email: '',
+    role: '',
+  });
 
   return (
     <div className="App">

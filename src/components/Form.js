@@ -1,48 +1,61 @@
 import React, { useState, useEffect } from 'react';
 
 const Form = (props) => {
-  const [formData, setFormData] = useState({ name: '', email: '', role: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    role: '',
+  });
 
   const onInputChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   const addMember = (event) => {
-    event.preventDefault();
     props.setMemberList([
       ...props.memberList,
-      { id: props.memberList.length, ...formData },
+      { ...formData, id: props.memberList.length },
     ]);
     setFormData({ name: '', email: '', role: '' });
+    event.preventDefault();
   };
 
   const editMember = (event) => {
-    event.preventDefault();
     props.setMemberList(
       props.memberList.map((member) => {
         if (member.id === props.memberToEdit.id) {
-          return { id: member.id, ...formData };
+          return { ...formData, id: member.id };
         } else {
           return member;
         }
       }),
     );
-    setFormData({ name: '', email: '', role: '' });
-    props.setMemberToEdit(null);
+    props.setMemberToEdit({
+      id: -1,
+      name: '',
+      email: '',
+      role: '',
+    });
+    event.preventDefault();
   };
 
   useEffect(() => {
     setFormData({ ...props.memberToEdit });
+    console.log(props.memberToEdit);
   }, [props.memberToEdit]);
+
+  useEffect(() => {
+    console.log(props.memberList);
+  }, [props.memberList]);
 
   return (
     <>
       <form
         onSubmit={(event) =>
-          props.memberToEdit ? editMember(event) : addMember(event)
+          props.memberToEdit.id !== -1 ? editMember(event) : addMember(event)
         }
       >
-        <h3>{(props.memberToEdit ? 'Edit' : 'Add') + ' Member'}</h3>
+        <h3>{(props.memberToEdit.id !== -1 ? 'Edit' : 'Add') + ' Member'}</h3>
         <label htmlFor="nameInput">
           Name:{' '}
           <input
@@ -75,7 +88,7 @@ const Form = (props) => {
             value={formData.role}
           />
         </label>
-        <button>{props.memberToEdit ? 'Edit' : 'Add'}</button>
+        <button>{props.memberToEdit.id !== -1 ? 'Edit' : 'Add'}</button>
       </form>
     </>
   );
