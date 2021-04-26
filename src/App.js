@@ -1,23 +1,51 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
+import MemberCard from './components/MemberCard';
+import Form from './components/Form';
+
+const defaultMembers = [
+  {
+    id: 0,
+    name: 'Angela I. Tarkington',
+    email: 'AngelaITarkington@armyspy.com',
+    role: 'Parking enforcement worker',
+  },
+  {
+    id: 1,
+    name: 'Faith J. Long',
+    email: 'FaithJLong@jourrapide.com',
+    role: 'Mixing and blending machine operator',
+  },
+];
+
 function App() {
+  const [memberList, setMemberList] = useState(defaultMembers);
+  const [memberToEdit, setMemberToEdit] = useState({
+    id: -1,
+    name: '',
+    email: '',
+    role: '',
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Form
+        memberList={memberList}
+        setMemberList={setMemberList}
+        memberToEdit={memberToEdit}
+        setMemberToEdit={setMemberToEdit}
+      />
+      <h3>Team List</h3>
+      <div className="card-wrapper">
+        {memberList.map((memberData, index) => (
+          <MemberCard
+            key={index}
+            memberData={{ ...memberData }}
+            setMemberToEdit={setMemberToEdit}
+          />
+        ))}
+      </div>
     </div>
   );
 }
